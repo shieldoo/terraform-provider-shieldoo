@@ -13,7 +13,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 // create shieldoo firewall for server
@@ -45,7 +45,7 @@ data "cloudinit_config" "server_config" {
   part {
     content_type = "text/cloud-config"
     content = templatefile("${path.module}/cloud-config.yaml", {
-      config: shieldoo_server.aws_server_1.configuration
+      config : shieldoo_server.aws_server_1.configuration
     })
   }
 }
@@ -54,8 +54,8 @@ data "cloudinit_config" "server_config" {
 resource "aws_instance" "aws_server_1" {
   ami           = "ami-09dd5f12915cfb387" // AWS Linux default image by 2023-04-12
   instance_type = "t2.micro"
-  key_name = "valda"
-  user_data = data.cloudinit_config.server_config.rendered
+  key_name      = "valda"
+  user_data     = data.cloudinit_config.server_config.rendered
   tags = {
     Name = "aws-test-1"
   }
