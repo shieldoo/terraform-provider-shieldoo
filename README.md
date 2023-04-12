@@ -43,7 +43,14 @@ export SHIELDOO_ENDPOINT="http://localhost:9000"
 export SHIELDOO_API_KEY="AAABBBCCCDDD"
 ```
 
+### Sample deployment AWS EC2 instance with shieldoo
+
+[AWS EC2 terraform example](examples/aws)
+
+### Sample complex deployment
+
 Complex example:
+
 ```terraform
 terraform {
   required_providers {

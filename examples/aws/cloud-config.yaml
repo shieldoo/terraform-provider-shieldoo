@@ -1,0 +1,3 @@
+#cloud-config
+runcmd:
+  - wget -qO- "https://download.shieldoo.io/latest/linux-amd64-install-svc.sh" | sudo bash -s -- "${config}"
