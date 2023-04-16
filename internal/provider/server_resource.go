@@ -40,6 +40,7 @@ type ServerResourceModel struct {
 	GroupObjectIds types.List                       `tfsdk:"group_object_ids"`
 	GroupNames     types.List                       `tfsdk:"group_names"`
 	Listeners      ServerResourceModelListenerValue `tfsdk:"listeners"`
+	Autoupdate     types.Bool                       `tfsdk:"autoupdate"`
 }
 
 type ServerResourceModelListenerType struct {
@@ -124,6 +125,10 @@ func (r *ServerResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			},
 			"description": schema.StringAttribute{
 				MarkdownDescription: "Server description",
+				Optional:            true,
+			},
+			"autoupdate": schema.BoolAttribute{
+				MarkdownDescription: "Autoupdate",
 				Optional:            true,
 			},
 			"firewall_id": schema.StringAttribute{
@@ -263,6 +268,7 @@ func (r *ServerResource) Create(ctx context.Context, req resource.CreateRequest,
 
 	server := &Server{
 		Name:        data.Name.ValueString(),
+		Autoupdate:  data.Autoupdate.ValueBool(),
 		Description: data.Description.ValueString(),
 		IpAddress:   data.IpAddress.ValueString(),
 		Firewall:    Firewall{Id: data.FirewallId.ValueString()},
@@ -364,6 +370,7 @@ func (r *ServerResource) Update(ctx context.Context, req resource.UpdateRequest,
 
 	server := &Server{
 		Id:          data.Id.ValueString(),
+		Autoupdate:  data.Autoupdate.ValueBool(),
 		Name:        data.Name.ValueString(),
 		Description: data.Description.ValueString(),
 		IpAddress:   data.IpAddress.ValueString(),
