@@ -288,7 +288,7 @@ func (r *ServerResource) Create(ctx context.Context, req resource.CreateRequest,
 	}
 
 	if !data.GroupNames.IsNull() {
-		for _, g := range data.GroupIds.Elements() {
+		for _, g := range data.GroupNames.Elements() {
 			g, ok := g.(types.String)
 			if !ok {
 				resp.Diagnostics.AddError("Error parsing group name", "Error parsing group name")
@@ -300,7 +300,7 @@ func (r *ServerResource) Create(ctx context.Context, req resource.CreateRequest,
 	}
 
 	if !data.GroupObjectIds.IsNull() {
-		for _, g := range data.GroupIds.Elements() {
+		for _, g := range data.GroupObjectIds.Elements() {
 			g, ok := g.(types.String)
 			if !ok {
 				resp.Diagnostics.AddError("Error parsing group object id", "Error parsing group object id")
@@ -391,7 +391,7 @@ func (r *ServerResource) Update(ctx context.Context, req resource.UpdateRequest,
 	}
 
 	if !data.GroupNames.IsNull() {
-		for _, g := range data.GroupIds.Elements() {
+		for _, g := range data.GroupNames.Elements() {
 			g, ok := g.(types.String)
 			if !ok {
 				resp.Diagnostics.AddError("Error parsing group name", "Error parsing group name")
@@ -403,7 +403,7 @@ func (r *ServerResource) Update(ctx context.Context, req resource.UpdateRequest,
 	}
 
 	if !data.GroupObjectIds.IsNull() {
-		for _, g := range data.GroupIds.Elements() {
+		for _, g := range data.GroupObjectIds.Elements() {
 			g, ok := g.(types.String)
 			if !ok {
 				resp.Diagnostics.AddError("Error parsing group object id", "Error parsing group object id")
