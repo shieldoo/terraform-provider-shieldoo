@@ -30,17 +30,22 @@ type ServerResource struct {
 
 // ServerResourceModel describes the resource data model.
 type ServerResourceModel struct {
-	Name           types.String                     `tfsdk:"name"`
-	Id             types.String                     `tfsdk:"id"`
-	Configuration  types.String                     `tfsdk:"configuration"`
-	Description    types.String                     `tfsdk:"description"`
-	IpAddress      types.String                     `tfsdk:"ip_address"`
-	FirewallId     types.String                     `tfsdk:"firewall_id"`
-	GroupIds       types.List                       `tfsdk:"group_ids"`
-	GroupObjectIds types.List                       `tfsdk:"group_object_ids"`
-	GroupNames     types.List                       `tfsdk:"group_names"`
-	Listeners      ServerResourceModelListenerValue `tfsdk:"listeners"`
-	Autoupdate     types.Bool                       `tfsdk:"autoupdate"`
+	Name                    types.String                     `tfsdk:"name"`
+	Id                      types.String                     `tfsdk:"id"`
+	Configuration           types.String                     `tfsdk:"configuration"`
+	Description             types.String                     `tfsdk:"description"`
+	IpAddress               types.String                     `tfsdk:"ip_address"`
+	FirewallId              types.String                     `tfsdk:"firewall_id"`
+	GroupIds                types.List                       `tfsdk:"group_ids"`
+	GroupObjectIds          types.List                       `tfsdk:"group_object_ids"`
+	GroupNames              types.List                       `tfsdk:"group_names"`
+	Listeners               ServerResourceModelListenerValue `tfsdk:"listeners"`
+	Autoupdate              types.Bool                       `tfsdk:"autoupdate"`
+	OSUpdateEnabled         types.Bool                       `tfsdk:"os_update_enabled"`
+	OSSecurityUpdateEnabled types.Bool                       `tfsdk:"os_security_update_enabled"`
+	OSAllUpdateEnabled      types.Bool                       `tfsdk:"os_all_update_enabled"`
+	OSRestartAfterUpdate    types.Bool                       `tfsdk:"os_restart_after_update"`
+	OSUpdateHour            types.Int64                      `tfsdk:"os_update_hour"`
 }
 
 type ServerResourceModelListenerType struct {
@@ -129,6 +134,26 @@ func (r *ServerResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			},
 			"autoupdate": schema.BoolAttribute{
 				MarkdownDescription: "Autoupdate",
+				Optional:            true,
+			},
+			"os_update_enabled": schema.BoolAttribute{
+				MarkdownDescription: "OS Update Enabled",
+				Optional:            true,
+			},
+			"os_security_update_enabled": schema.BoolAttribute{
+				MarkdownDescription: "OS Security Update Enabled",
+				Optional:            true,
+			},
+			"os_all_update_enabled": schema.BoolAttribute{
+				MarkdownDescription: "OS All Update Enabled",
+				Optional:            true,
+			},
+			"os_restart_after_update": schema.BoolAttribute{
+				MarkdownDescription: "OS Restart After Update",
+				Optional:            true,
+			},
+			"os_update_hour": schema.Int64Attribute{
+				MarkdownDescription: "OS Update Hour (0=anytime, then hour in day in GMT)",
 				Optional:            true,
 			},
 			"firewall_id": schema.StringAttribute{
@@ -273,6 +298,13 @@ func (r *ServerResource) Create(ctx context.Context, req resource.CreateRequest,
 		IpAddress:   data.IpAddress.ValueString(),
 		Firewall:    Firewall{Id: data.FirewallId.ValueString()},
 		Listeners:   data.Listeners.ParseServerListenersFromModel(ctx),
+		OSUpdatePolicy: ServerOSAutoupdatePolicy{
+			Enabled:                   data.OSUpdateEnabled.ValueBool(),
+			SecurityAutoupdateEnabled: data.OSSecurityUpdateEnabled.ValueBool(),
+			AllAutoupdateEnabled:      data.OSAllUpdateEnabled.ValueBool(),
+			RestartAfterUpdate:        data.OSRestartAfterUpdate.ValueBool(),
+			UpdateHour:                int(data.OSUpdateHour.ValueInt64()),
+		},
 	}
 
 	if !data.GroupIds.IsNull() {
@@ -376,6 +408,13 @@ func (r *ServerResource) Update(ctx context.Context, req resource.UpdateRequest,
 		IpAddress:   data.IpAddress.ValueString(),
 		Firewall:    Firewall{Id: data.FirewallId.ValueString()},
 		Listeners:   data.Listeners.ParseServerListenersFromModel(ctx),
+		OSUpdatePolicy: ServerOSAutoupdatePolicy{
+			Enabled:                   data.OSUpdateEnabled.ValueBool(),
+			SecurityAutoupdateEnabled: data.OSSecurityUpdateEnabled.ValueBool(),
+			AllAutoupdateEnabled:      data.OSAllUpdateEnabled.ValueBool(),
+			RestartAfterUpdate:        data.OSRestartAfterUpdate.ValueBool(),
+			UpdateHour:                int(data.OSUpdateHour.ValueInt64()),
+		},
 	}
 
 	if !data.GroupIds.IsNull() {

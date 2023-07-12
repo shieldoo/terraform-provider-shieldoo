@@ -50,12 +50,12 @@ resource "shieldoo_firewall" "example1" {
     {
       port        = "22"
       protocol    = "tcp"
-      group_names = ["Shieldoo_Admin-69"]
+      #group_names = ["Shieldoo_Admin-69"]
     },
     {
       port             = "80"
       protocol         = "tcp"
-      group_object_ids = ["8ebe0ff5-d358-4787-bf6d-0f44d9b1129f"]
+      #group_object_ids = ["8ebe0ff5-d358-4787-bf6d-0f44d9b1129f"]
     }
   ]
 }
@@ -74,12 +74,12 @@ resource "shieldoo_firewall" "example2" {
     {
       port      = "22"
       protocol  = "tcp"
-      group_ids = ["localhost:groups:69"]
+      #group_ids = ["localhost:groups:69"]
     },
     {
       port             = "80"
       protocol         = "tcp"
-      group_object_ids = ["8ebe0ff5-d358-4787-bf6d-0f44d9b1129f"]
+      #group_object_ids = ["8ebe0ff5-d358-4787-bf6d-0f44d9b1129f"]
     }
   ]
 }
@@ -109,7 +109,7 @@ resource "shieldoo_server" "example2" {
   name        = "example2"
   firewall_id = shieldoo_firewall.example1.id
   //description = shieldoo_server.example1.configuration
-  group_ids = ["localhost:groups:69"]
+  #group_ids = ["localhost:groups:69"]
   listeners = [
     {
       listen_port  = 80
@@ -134,6 +134,9 @@ resource "shieldoo_server" "example3" {
   name        = "example3"
   firewall_id = shieldoo_firewall.example1.id
   description = "example3 description"
+  os_update_enabled = true
+  os_security_update_enabled = true
+  os_update_hour = 3
 }
 
 output "name-server-example3-id" {
