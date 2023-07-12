@@ -220,7 +220,7 @@ PLUGIN_ARCH=darwin_arm64
 #PLUGIN_ARCH=linux_amd64
 
 # Create the directory holding the newly built Terraform plugins
-mkdir -p ~/.terraform.d/plugins/registry.terraform.io/shieldoo-io/shieldoo/1.0.0/${PLUGIN_ARCH}
-cp bin/terraform-provider-shieldoo ~/.terraform.d/plugins/registry.terraform.io/shieldoo-io/shieldoo/1.0.0/${PLUGIN_ARCH}/terraform-provider-shieldoo
+mkdir -p ~/.terraform.d/plugins/registry.terraform.io/shieldoo-io/shieldoo/1.0.1/${PLUGIN_ARCH}
+cp bin/terraform-provider-shieldoo ~/.terraform.d/plugins/registry.terraform.io/shieldoo-io/shieldoo/1.0.1/${PLUGIN_ARCH}/terraform-provider-shieldoo
 
 ```
